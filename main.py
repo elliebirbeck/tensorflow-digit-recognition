@@ -1,19 +1,15 @@
 import tensorflow as tf
+import numpy as np
+from PIL import Image
 
 # import mnist data
 from tensorflow.examples.tutorials.mnist import input_data
-mnist = input_data.read_data_sets("/tmp/data/", one_hot=True) # y labels are oh-encoded
+mnist = input_data.read_data_sets("MNIST_data/", one_hot=True) # y labels are oh-encoded
 
 # dataset size
 n_train = mnist.train.num_examples # 55,000
 n_validation = mnist.validation.num_examples # 5000
 n_test = mnist.test.num_examples # 10,000
-
-# network parameters
-learning_rate = 1e-4
-n_iterations = 1000
-batch_size = 128
-dropout = 0.5
 
 # network architecture
 n_input = 784 	# input layer (28x28 pixels)
@@ -21,6 +17,12 @@ n_hidden1 = 512 # 1st hidden layer
 n_hidden2 = 256 # 2nd hidden layer
 n_hidden3 = 128 # 3rd hidden layer
 n_output = 10 	# output layer (0-9 digits)
+
+# network parameters
+learning_rate = 1e-4
+n_iterations = 1000
+batch_size = 128
+dropout = 0.5
 
 # tf placeholders
 X = tf.placeholder("float", [None, n_input])
@@ -76,6 +78,11 @@ for i in range(n_iterations):
 test_accuracy = sess.run(accuracy, feed_dict={X: mnist.test.images, Y: mnist.test.labels, keep_prob:1.0})
 print("\nAccuracy on test set:", test_accuracy)
 
+# accuracy on own image
+img = np.invert(Image.open("test_img.png").convert('L')).ravel()
+prediction = sess.run(tf.argmax(output_layer,1), feed_dict={X: [img]})
+print ("Prediction for test image:", np.squeeze(prediction))
+
 
 """
 Expected output ~:
@@ -92,4 +99,6 @@ Iteration 800 	| Loss = 0.379697 	| Accuracy = 0.875
 Iteration 900 	| Loss = 0.444303 	| Accuracy = 0.90625
 
 Accuracy on test set: 0.9206
+
+Prediction for test image: 2
 """
