@@ -1,4 +1,4 @@
-Source code for the **Building a neural network to recognise handwritten digits with TensorFlow** tutorial written for [Digital Ocean](http://digitalocean.com/).
+Source code for the **Building a neural network to recognise handwritten digits with TensorFlow** tutorial written for [DigitalOcean](http://digitalocean.com/).
 
 - Install Python3 and pip
 - Clone this Github repo `git clone https://github.com/elliebirbeck/tensorflow-digit-recognition.git`
